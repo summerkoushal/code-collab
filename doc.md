@@ -1,10 +1,22 @@
-2. Creating editor page UI
-3. Setting up server > socket
+remaining : Setting up server > socket
 
-## Working with client folder
+### Setting up environment
+```text
+.
+├── client
+│   └── components
+│       ├── Client.jsx
+│       ├── Editor.jsx
+│       ├── EditorPage.jsx
+│       └── Home.jsx
+├── doc.md
+└── server
+```
+
 ```bash
 mkdir server
-npm create vite@latest # choose ESlint, choose project name as client
+npm create vite@latest # choose (ESlint), choose project name as (client)
+
 cd client
 npm i bootstrap
 npm i codemirror #for our code editor
@@ -13,14 +25,16 @@ npm i react-hot-toast # for user joining / leaving alert message
 npm i react-router-dom # for changing between pages / routes
 npm i socket.io-client # different packages are there for client / server side
 npm i uuid # generates unique ID for users
-```
 
-- we have 2 pages (home page, editor page)
-```bash
+# we have 2 pages (home, editor)
 mkdir components
 cd components
 touch Home.jsx
-touch EditorPage.jsx
+touch EditorPage.jsx # Client.jsx and Editor.jsx are subpages of this
+
+touch Client.jsx
+touch Editor.jsx
+
 npm run dev
 ```
 
@@ -132,5 +146,38 @@ export default function Client(props) {
 // package.json > "codemirror": "^5.65.15", > npm init
 
 // Editor.jsx
+// learn userRef hook 
+import React, { useEffect, useRef } from 'react'
+import "codemirror/mode/javascript/javascript";
+import "codemirror/theme/dracula.css";
+import "codemirror/addon/edit/closetag";
+import "codemirror/addon/edit/closebrackets";
+import "codemirror/lib/codemirror.css";
+import CodeMirror from "codemirror";
 
+export default function Editor() {
+    const editorRef = useRef(null);
+    useEffect(() => {
+        const init = async () => {
+            const editor = CodeMirror.fromTextArea(
+                document.getElementById('realTimeEditor'),
+                {
+                    mode: { name: 'javascript', json: true }, 
+                    theme: 'dracula',
+                    autoCloseTags: true,
+                    autoCloseBrackets: true,
+                    lineNumbers: true,
+                    
+                }
+            )
+            editor.setSize(null, '100%');
+        }
+        init();
+    }, [])
+  return (
+    <div style={{ height: "100%" }}>
+      <textarea id="realTimeEditor"></textarea>
+    </div>
+  );
+}
 ```
