@@ -1,6 +1,6 @@
 remaining : Setting up server > socket
 
-### Setting up environment
+### project setup
 ```text
 .
 ├── client
@@ -38,7 +38,7 @@ touch Editor.jsx
 npm run dev
 ```
 
-### Setup react-router-dom
+### react-router-dom setup
 ```jsx
 // main.jsx
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -54,7 +54,7 @@ import { Route, Routes } from 'react-router-dom'
     </Routes>
 ```
 
-### creating home page UI
+### Home page design
 ```jsx
 // main.jsx
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -84,7 +84,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
         </div>
 ```
 
-### creating Editor page UI
+### Editor page design
 
 ```jsx
 // EditorPage.jsx
@@ -181,3 +181,25 @@ export default function Editor() {
   );
 }
 ```
+
+### generate roomId using UUID
+```jsx
+// Home.jsx
+import { v4 as uuid } from "uuid";
+
+const [roomId, setRoomId] = useState('');
+const [username, setUsername] = useState('');
+
+const generateRoomId = (e) => {
+  e.preventDefault(); 
+  // right click inspect, double click on img to select are some of default behaviour
+  // we disable default behaviour so that our page do not render un necessarily
+  const id = uuid();
+  setRoomId(id);
+}
+
+  <input type="text" className="form-control mb-2" placeholder='Room Id' [value={roomId} onChange={(e) => setRoomId(e.target.value)}] />
+
+  <p className='mt-3' >don't have a room Id? <span [onClick={generateRoomId}] style={{cursor: 'pointer'}} className='text-success p-2' >New Room</span> </p>
+```
+
