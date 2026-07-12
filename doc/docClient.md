@@ -1,20 +1,14 @@
-remaining : Setting up server > socket
-
 ### project setup
 ```text
-.
-├── client
-│   └── components
-│       ├── Client.jsx
-│       ├── Editor.jsx
-│       ├── EditorPage.jsx
-│       └── Home.jsx
-├── doc.md
-└── server
+client
+└── components
+    ├── Client.jsx
+    ├── Editor.jsx
+    ├── EditorPage.jsx
+    └── Home.jsx
 ```
 
 ```bash
-mkdir server
 npm create vite@latest # choose (ESlint), choose project name as (client)
 
 cd client
