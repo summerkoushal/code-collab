@@ -12,7 +12,7 @@ npm run dev
 ```
 
 ### Socket.io connection server and client side
-1. server side
+- server side
 ```jsx
 // package.json
 "start": "nodemon index.js",
@@ -38,7 +38,7 @@ server.listen(PORT, () => {
 });
 ```
 
-2. client side
+- client side
 ```bash
 cd client/src
 touch socket.jsx
@@ -77,4 +77,34 @@ import { initSocket } from "../socket";
     };
     init();
   }, []);
+```
+
+```text
+Steps to run : 
+1. go to server and run: $npm start
+2. go to client and run: $npm run dev
+3. now socketId will be shown in terminal if user connects
+```
+
+### socket logic to setup realtime enivironment
+```jsx
+// EditorPage.jsx
+import { useNavigate, Navigate } from "react-router-dom";
+
+  const navigate = useNavigate();
+
+  socketRef.current.on('connect_error', (err) => handleError(err));
+  socketRef.current.on('connect_failed', (err) => handleError(err));
+
+  const handleError = (e) => {
+    console.log('socket error=>', e);
+    toast.error('Socket connection failed');
+    navigate('/');
+  }
+  socketRef.current.emit('join', {
+    roomId,
+    username: location.state?.username,
+  })
+
+  if(!location.state) return <Navigate to='/' />
 ```
