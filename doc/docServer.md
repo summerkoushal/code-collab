@@ -1,6 +1,3 @@
-- 01:43:31 -  socket logic to setup realtime enivironment
-- 02:57:37 -  copy Room Id and Leave buttom
-
 ### Server
 ```bash
 mkdir server
@@ -53,24 +50,31 @@ import { io } from 'socket.io-client'
 
 export const initSocket = async () => {
     const option = {
-        'force new connection': true, // new connection should not wait to end prev Id
-        'reconnectionAttempt': 'infinity', 
-        timeout: 10000,
-        transports: ['websocket'],
-    }
-    return io(process.env.REACT_APP_BACKEND_URL, option); // we need to pass URL of backend on which server runs
+      forceNew: true, // new connection should not wait to end prev Id
+      reconnectionAttempts: Infinity,
+      timeout: 10000,
+      transports: ["websocket"],
+    };
+    return io('http://localhost:8000', option); // we need to pass URL of backend on which server runs
 }
 ```
 
-```bash
-cd client
-touch .env
-```
-
-```js
-// .env
-REACT_APP_BACKEND_URL = http://localhost:5000
-
+```jsx
 // EditorPage.jsx
+import { useLocation, useParams } from "react-router-dom";
+import { initSocket } from "../socket";
 
+  const socketRef = useRef(null);
+  const location = useLocation();
+  const { roomId } = useParams();
+  useEffect(() => {
+    const init = async () => {
+      socketRef.current = await initSocket();
+      // socketRef.current.emit('join', {
+      //   roomId,
+      //   username: location.state?.username,
+      // })
+    };
+    init();
+  }, []);
 ```
