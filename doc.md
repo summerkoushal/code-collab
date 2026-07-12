@@ -203,3 +203,31 @@ const generateRoomId = (e) => {
   <p className='mt-3' >don't have a room Id? <span [onClick={generateRoomId}] style={{cursor: 'pointer'}} className='text-success p-2' >New Room</span> </p>
 ```
 
+### react-hot-toast setup
+```jsx
+// App.jsx
+import { Toaster } from "react-hot-toast"
+
+<Toaster position='top-center' ></Toaster>
+
+// Home.jsx
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'
+
+  const navigate = useNavigate();
+
+  toast.success('Room Id is generated');
+
+const joinRoom = () => {
+  if (!roomId || !username) {
+    toast.error('both the fields are required');
+    return;
+  }
+  // navigate
+  navigate(`/editor/${roomId}`, {
+    // we can send data to navigating destination, and use data there
+    state: { username },
+  })
+  toast.success('room is created');
+}
+```
