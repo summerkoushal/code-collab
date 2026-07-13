@@ -150,7 +150,8 @@ socketRef.current.on("joined", ({ clients, username, socketId }) => {
   if (username !== location.state?.username) {
     toast.success(`${username} joined`);
   }
+  setClient(clients);
 });
 
-// NOTE : after this all users in a group will get notification if someone joined, except self
+// NOTE : after this all users will get in a group and all will get notification if someone joined, except self
 ```

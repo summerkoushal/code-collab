@@ -5,6 +5,7 @@ import { useNavigate, useLocation, useParams, Navigate } from "react-router-dom"
 import { initSocket } from "../socket";
 
 export default function EditorPage() {
+  const [clients, setClient] = useState([]);
   const socketRef = useRef(null);
   const location = useLocation();
   const { roomId } = useParams();
@@ -28,16 +29,11 @@ export default function EditorPage() {
         if (username !== location.state?.username) {
           toast.success(`${username} joined`);
         }
+        setClient(clients);
       });
     };
     init();
   }, []);
-  const [clients, setClient] = useState([
-    { socketId: 1, username: "Summer" }, 
-    { socketId: 2, username: "Rajesh" },
-    { socketId: 3, username: "Harry" },
-    { socketId: 4, username: "Mary" },
-  ])
 
   if(!location.state) return <Navigate to='/' />
 
