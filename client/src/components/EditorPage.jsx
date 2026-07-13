@@ -24,6 +24,11 @@ export default function EditorPage() {
         roomId,
         username: location.state?.username,
       })
+      socketRef.current.on("joined", ({ clients, username, socketId }) => {
+        if (username !== location.state?.username) {
+          toast.success(`${username} joined`);
+        }
+      });
     };
     init();
   }, []);
