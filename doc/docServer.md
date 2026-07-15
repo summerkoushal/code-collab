@@ -189,3 +189,53 @@ socketRef.current.on("joined", ({ clients, username, socketId }) => {
 // Editor.jsx
     [editorRef.current =] document.getElementById('realTimeEditor'),
 ```
+
+### code is sync among users, but newly joined people dont get prev code
+
+```jsx
+// index.js
+  socket.on('code-change', ({ roomId, code }) => {
+    socket.in(roomId).emit('code-change', { code });
+  })
+  // socket.on('sync-code', ({ socketId, code }) => {
+  //   io.to(socketId).emit('sync-code', { code });
+  // })
+
+// EditorPage.jsx
+    socketRef.current.off("joined");
+    socketRef.current.off("disconnected");
+
+    <Editor socketRef={socketRef} roomId={roomId} />
+
+// Editor.jsx
+export default function Editor({ socketRef, roomId }) {
+
+  const editor = CodeMirror.fromTextArea(document.getElementById('realTimeEditor'), {
+
+          editorRef.current = editor;
+            editor.setSize(null, '100%');
+          editor.on('change', (instance, changes) => {
+            // console.log(`changes`, instance, changes);
+            const { origin } = changes;
+            const code = instance.getValue();
+            if (origin != 'setValue') {
+              socketRef.current.emit('code-change', {
+                roomId,
+                code,
+              });
+            }
+          })
+
+  useEffect(() => {
+    if (socketRef.current) {
+      socketRef.current.on("code-change", ({ code }) => {
+        if (code !== null) {
+          editorRef.current.setValue(code);
+        }
+      });
+    }
+    return () => {
+      socketRef.current.off('code-change');
+    }
+  }, [socketRef.current])
+```

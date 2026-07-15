@@ -44,8 +44,8 @@ export default function EditorPage() {
     init();
   return () => {
     socketRef.current.disconnect();
-  //   socketRef.current.off("joined");
-  //   socketRef.current.off("disconnected");
+    socketRef.current.off("joined");
+    socketRef.current.off("disconnected");
   };
   }, []);
 
@@ -70,7 +70,7 @@ export default function EditorPage() {
             </div>
           </div>
           <div className="col-md-10 bg-secondary d-flex flex-column h-100">
-            <Editor />
+            <Editor socketRef={socketRef} roomId={roomId} />
           </div>
         </div>
       </div>
