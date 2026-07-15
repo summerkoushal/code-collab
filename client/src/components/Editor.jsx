@@ -11,7 +11,7 @@ export default function Editor() {
     useEffect(() => {
         const init = async () => {
             const editor = CodeMirror.fromTextArea(
-                document.getElementById('realTimeEditor'),
+                editorRef.current = document.getElementById('realTimeEditor'),
                 {
                     mode: { name: 'javascript', json: true }, 
                     theme: 'dracula',

@@ -152,8 +152,40 @@ socketRef.current.on("joined", ({ clients, username, socketId }) => {
   }
   setClient(clients);
 });
-
 // NOTE : after this all users will get in a group and all will get notification if someone joined, except self
 ```
 
+### left users name disappear without clicking refresh if they left
+
+```jsx
+// index.js
+  socket.on("disconnecting", () => {
+    const rooms = [...socket.rooms];
+    rooms.forEach((roomId) => {
+      socket.in(roomId).emit("disconnected", {
+        socketId: socket.id,
+        username: userSocketMap[socket.id],
+      });
+    });
+    delete userSocketMap[socket.id];
+    socket.leave();
+  });
+// EditorPage.jsx
+      // disconnected
+      socketRef.current.on("disconnected", ({ socketId, username }) => {
+        // console.log(socketId, username);
+        toast.success(`${username} leave`); 
+        setClient((prev) => {
+          return prev.filter((client) => client.socketId != socketId);
+        });
+      });
+
+  return () => {
+    socketRef.current.disconnect();
+  //   socketRef.current.off("joined");
+  //   socketRef.current.off("disconnected");
+  };
+
+// Editor.jsx
+    [editorRef.current =] document.getElementById('realTimeEditor'),
 ```

@@ -32,11 +32,22 @@ export default function EditorPage() {
         }
         setClient(clients);
       });
-
+      // disconnected
+      socketRef.current.on("disconnected", ({ socketId, username }) => {
+        // console.log(socketId, username);
+        toast.success(`${username} leave`); 
+        setClient((prev) => {
+          return prev.filter((client) => client.socketId != socketId);
+        });
+      });
     };
     init();
+  return () => {
+    socketRef.current.disconnect();
+  //   socketRef.current.off("joined");
+  //   socketRef.current.off("disconnected");
+  };
   }, []);
-
 
   if(!location.state) return <Navigate to='/' />
 
