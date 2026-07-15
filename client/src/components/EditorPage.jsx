@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Editor from "./Editor";
 import Client from "./Client";
 import { useNavigate, useLocation, useParams, Navigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { initSocket } from "../socket";
 
 export default function EditorPage() {
@@ -12,15 +13,15 @@ export default function EditorPage() {
   const navigate = useNavigate();
   useEffect(() => {
     const init = async () => {
-      socketRef.current = await initSocket();
-      socketRef.current.on('connect_error', (err) => handleError(err));
-      socketRef.current.on('connect_failed', (err) => handleError(err));
-
       const handleError = (e) => {
         console.log('socket error=>', e);
         toast.error('Socket connection failed');
         navigate('/');
       }
+      socketRef.current = await initSocket();
+      socketRef.current.on('connect_error', (err) => handleError(err));
+      socketRef.current.on('connect_failed', (err) => handleError(err));
+
       socketRef.current.emit('join', {
         roomId,
         username: location.state?.username,
@@ -31,9 +32,11 @@ export default function EditorPage() {
         }
         setClient(clients);
       });
+
     };
     init();
   }, []);
+
 
   if(!location.state) return <Navigate to='/' />
 
