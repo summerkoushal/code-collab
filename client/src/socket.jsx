@@ -8,6 +8,6 @@ export const initSocket = async () => {
       transports: ["websocket"],
     };
     return io(
-      "https://code-collab-production-6738.up.railway.app/:8000",option,
+      "https://code-collab-production-6738.up.railway.app",option,
     ); // we need to pass URL of backend on which server runs
 }
