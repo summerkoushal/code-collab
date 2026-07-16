@@ -22,7 +22,10 @@ const getAllConnectedClients = (roomId) => {
     }
   ) 
 }
-
+// del
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
 io.on("connection", (socket) => {
   // console.log(`user connected: ${socket.id}`);
 

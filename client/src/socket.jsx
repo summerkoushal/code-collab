@@ -7,5 +7,7 @@ export const initSocket = async () => {
       timeout: 10000,
       transports: ["websocket"],
     };
-    return io('http://localhost:8000', option); // we need to pass URL of backend on which server runs
+    return io(
+      "https://code-collab-production-6738.up.railway.app/:8000",option,
+    ); // we need to pass URL of backend on which server runs
 }
