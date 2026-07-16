@@ -264,3 +264,25 @@ export default function Editor({ socketRef, roomId, onCodeChange }) {
 
   <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code) => (codeRef.current = code)} />
 ```
+
+### copyId and leaveRoom button working
+
+```jsx
+// EditorPage.jsx
+  <button onClick={copyRoomId} className="btn btn-success">Copy Room Id</button>
+  <button onClick={leaveRoom} className="btn btn-danger mt-2 mb-2 px-3 btn-block">Leave Room</button>
+
+  const copyRoomId = async () => {
+    try {
+      await navigator.clipboard.writeText(roomId);
+      toast.success('roomId is copied');
+    }
+    catch (error) {
+      toast.error('unable to copy roomId');
+    }
+  }
+
+  const leaveRoom = () => {
+    navigate('/');
+  }
+```
