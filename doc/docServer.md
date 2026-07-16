@@ -239,3 +239,28 @@ export default function Editor({ socketRef, roomId }) {
     }
   }, [socketRef.current])
 ```
+
+### code is sync among users, and newly joined people get prev code
+
+```jsx
+// index.js
+  socket.on('sync-code', ({ socketId, code }) => {
+    io.to(socketId).emit('code-change', { code });
+  })
+
+// Editor.jsx
+export default function Editor({ socketRef, roomId, onCodeChange }) {
+
+  onCodeChange(code);
+
+// EditorPage.jsx
+  const codeRef = useRef(null);
+
+        socketRef.current.emit('sync-code', {
+          code: codeRef.current,
+          socketId,
+        });
+      });
+
+  <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code) => (codeRef.current = code)} />
+```

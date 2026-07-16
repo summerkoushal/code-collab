@@ -8,6 +8,7 @@ import { initSocket } from "../socket";
 export default function EditorPage() {
   const [clients, setClient] = useState([]);
   const socketRef = useRef(null);
+  const codeRef = useRef(null);
   const location = useLocation();
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -31,6 +32,10 @@ export default function EditorPage() {
           toast.success(`${username} joined`);
         }
         setClient(clients);
+        socketRef.current.emit('sync-code', {
+          code: codeRef.current,
+          socketId,
+        });
       });
       // disconnected
       socketRef.current.on("disconnected", ({ socketId, username }) => {
@@ -70,7 +75,7 @@ export default function EditorPage() {
             </div>
           </div>
           <div className="col-md-10 bg-secondary d-flex flex-column h-100">
-            <Editor socketRef={socketRef} roomId={roomId} />
+            <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code) => (codeRef.current = code)} />
           </div>
         </div>
       </div>
