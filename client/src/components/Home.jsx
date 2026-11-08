@@ -33,8 +33,8 @@ export default function Home() {
         <div className='container-fluid'>
             <div className="row justify-content-center align-items-center min-vh-100">
                 <div className="col-12 col-md-6">
-                    <div className="card shadow-sm p-2 mb-5 bg-secondary rounded">
-                        <div className="card-body text-center bg-dark text-light">
+                    <div className="card shadow-sm mb-5 bg-black rounded">
+                        <div className="card-body text-center bg-dark text-light rounded">
                             <h4>Enter the Room Id</h4>
                             <div className="form-group">
                                 <input type="text" className="form-control mb-2" placeholder='Room Id' value={roomId} onChange={(e) => setRoomId(e.target.value)} />

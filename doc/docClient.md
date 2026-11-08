@@ -54,7 +54,7 @@ import { Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // index.html
-<body class="bg-dark text-light">
+<body class="bg-black text-light">
 
 // Home.jsx
         <div className='container-fluid'>
